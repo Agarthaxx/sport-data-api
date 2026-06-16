@@ -5,13 +5,18 @@
 ### Week 1 — SQL fundamentals
 
 - [x] Local setup: MySQL 8.4 + DBeaver
-- [ ] SELECT, WHERE, ORDER BY, LIMIT
+- [x] SELECT, WHERE, ORDER BY, LIMIT
 - [ ] GROUP BY + aggregate functions
 - [ ] HAVING vs WHERE
 
 **Acquis :**
-- Setup local propre : MySQL 8.4 (LTS) + DBeaver, connexion validée
-- Workflow Git/GitHub : commits conventionnels, branches feat/, Milestones/Issues/board
+- Setup local : MySQL 8.4 (LTS) + DBeaver, connexion validée
+- Git/GitHub : commits conventionnels, branches feat/, Milestones/Issues/board kanban
+- Types MySQL : INT, VARCHAR, DECIMAL(P,S) pour l'argent (jamais FLOAT — erreurs d'arrondi)
+- PRIMARY KEY + AUTO_INCREMENT, lecture de DESCRIBE
+- SELECT ciblé, WHERE, BETWEEN (bornes inclusives), ORDER BY ASC/DESC, LIMIT
+- Lire une erreur SQL : code 1064 = syntaxe, regarder le mot après "near"
+- ORDER BY + LIMIT : MySQL trie tout puis coupe (→ enjeu des index plus tard)
 
 **Bloque encore :**
-- (rien pour l'instant)
+- Rien de bloquant. À voir : GROUP BY + agrégats, HAVING vs WHERE
