@@ -6,8 +6,8 @@
 
 - [x] Local setup: MySQL 8.4 + DBeaver
 - [x] SELECT, WHERE, ORDER BY, LIMIT
-- [ ] GROUP BY + aggregate functions
-- [ ] HAVING vs WHERE
+- [x] GROUP BY + aggregate functions
+- [x] HAVING vs WHERE
 
 **Acquis :**
 - Setup local : MySQL 8.4 (LTS) + DBeaver, connexion validée
@@ -17,6 +17,10 @@
 - SELECT ciblé, WHERE, BETWEEN (bornes inclusives), ORDER BY ASC/DESC, LIMIT
 - Lire une erreur SQL : code 1064 = syntaxe, regarder le mot après "near"
 - ORDER BY + LIMIT : MySQL trie tout puis coupe (→ enjeu des index plus tard)
+- GROUP BY : agrégats par groupe ( COUNT/SUM/AVG/MIN/MAX par ligue)
+- Règle only_full_group_by : colonne du SELECT doit être groupée ou agrégée (erreur 1055)
+- HAVING filtre des groupes ( après agrégation ) vs WHERE filtre les lignes (avant)
+- Outils : début de TMUX ( multiplex, terminal ), mysqldump (export schéma)
 
 **Bloque encore :**
-- Rien de bloquant. À voir : GROUP BY + agrégats, HAVING vs WHERE
+- Rien de bloquant. Semaine 1 terminée -> next : Semaine 2 (JOINs)
