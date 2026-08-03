@@ -1,4 +1,3 @@
-cat > PROGRESS.md << 'EOF'
 # Progress — Backend Roadmap 2026
 
 ## Phase 1 — SQL & Data Modeling
