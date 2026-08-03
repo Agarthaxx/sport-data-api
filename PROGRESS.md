@@ -29,5 +29,3 @@ cat > PROGRESS.md << 'EOF'
 - INNER / LEFT / RIGHT JOIN maîtrisés (RIGHT surtout en lecture — équivalent à un LEFT avec tables inversées)
 - Sous-requêtes corrélées : comparaison à une moyenne de groupe (joueurs vs équipe, équipes vs ligue), distinction corrélée/non-corrélée, edge case du joueur unique dans son équipe compris
 - Normalisation 1NF (atomicité) → 2NF (dépendance à la clé entière) → 3NF (pas de dépendance transitive), appliquée rétrospectivement au schéma teams/players existant
-
-EOF
