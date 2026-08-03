@@ -19,9 +19,6 @@ cat > PROGRESS.md << 'EOF'
 - Lire une erreur SQL : code 1064 = syntaxe, regarder le mot après "near"
 - ORDER BY + LIMIT : MySQL trie tout puis coupe (→ enjeu des index plus tard)
 
-**Bloque encore :**
-- Rien de bloquant.
-
 ### Week 2 — JOINs, sous-requêtes corrélées, normalisation
 
 - [x] INNER / LEFT / RIGHT JOIN
@@ -33,6 +30,4 @@ cat > PROGRESS.md << 'EOF'
 - Sous-requêtes corrélées : comparaison à une moyenne de groupe (joueurs vs équipe, équipes vs ligue), distinction corrélée/non-corrélée, edge case du joueur unique dans son équipe compris
 - Normalisation 1NF (atomicité) → 2NF (dépendance à la clé entière) → 3NF (pas de dépendance transitive), appliquée rétrospectivement au schéma teams/players existant
 
-**Bloque encore :**
-- Rien de bloquant. Semaine complète, PR mergée sur main.
 EOF
