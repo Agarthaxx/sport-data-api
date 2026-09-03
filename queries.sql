@@ -61,3 +61,28 @@ WHERE t.budget_millions > (
     SELECT AVG(budget_millions)
     FROM teams
 );
+
+-- Meilleur buteur de chaque équipe, avec au moins 5 buts (CTE + fonction fenêtre RANK)
+WITH ranked_players AS (
+    SELECT
+    name,
+    goals,
+    team_id,
+    RANK() OVER (PARTITION BY team_id ORDER BY goals DESC) AS rank_in_team
+    FROM players
+)
+SELECT *
+FROM ranked_players
+WHERE rank_in_team = 1 and goals >= 5;
+
+-- Total de buts par équipe, uniquement celles qui dépassent 20 buts ( CTE + SUM + GROUP BY)
+WITh total_goals AS (
+    SELECT
+    team_id,
+    SUM(goals) AS ttx_goals
+    FROM players
+    GROUP BY team_id
+)
+SELECT * 
+FROM total_goals
+WHERE ttx_goals > 20;

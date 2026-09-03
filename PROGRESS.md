@@ -28,3 +28,20 @@
 - INNER / LEFT / RIGHT JOIN maîtrisés (RIGHT surtout en lecture — équivalent à un LEFT avec tables inversées)
 - Sous-requêtes corrélées : comparaison à une moyenne de groupe (joueurs vs équipe, équipes vs ligue), distinction corrélée/non-corrélée, edge case du joueur unique dans son équipe compris
 - Normalisation 1NF (atomicité) → 2NF (dépendance à la clé entière) → 3NF (pas de dépendance transitive), appliquée rétrospectivement au schéma teams/players existant
+
+### Week 3 — Fonctions fenêtre, CTEs
+
+- [x] Fonctions fenêtre : RANK(), DENSE_RANK(), ROW_NUMBER() + PARTITION BY
+- [x] CTEs (WITH ... AS)
+- [x] Pourquoi on ne peut pas filtrer un alias de fonction fenêtre dans WHERE/HAVING (ordre d'exécution)
+- [ ] Vues & vues matérialisées
+- [ ] EXPLAIN ANALYZE (intro)
+
+**Acquis :**
+- RANK() vs DENSE_RANK() : RANK() saute les valeurs après un ex-aequo, DENSE_RANK() non
+- Pourquoi ROW_NUMBER() est dangereux pour un "top 1" en cas d'égalité (distribution arbitraire, perd un joueur à égalité)
+- Ordre d'exécution SQL complet : FROM → WHERE → GROUP BY → agrégats → HAVING → SELECT → fonctions fenêtre → ORDER BY
+- CTE comme solution : calculer le rang dans un bloc à part, puis filtrer dessus dans le SELECT externe
+- Piège de nommage : ne jamais nommer une CTE comme une table existante (ambiguïté)
+- Exercice : top buteur par équipe avec seuil minimum (CTE + RANK + filtre combiné)
+- Exercice CTE + SUM() + GROUP BY : total de buts par équipe, filtré avec WHERE (pas HAVING) car ttx_goals est déjà une colonne figée une fois sortie de la CTE
