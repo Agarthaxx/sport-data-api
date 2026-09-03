@@ -44,3 +44,4 @@
 - CTE comme solution : calculer le rang dans un bloc à part, puis filtrer dessus dans le SELECT externe
 - Piège de nommage : ne jamais nommer une CTE comme une table existante (ambiguïté)
 - Exercice : top buteur par équipe avec seuil minimum (CTE + RANK + filtre combiné)
+- Exercice CTE + SUM() + GROUP BY : total de buts par équipe, filtré avec WHERE (pas HAVING) car ttx_goals est déjà une colonne figée une fois sortie de la CTE

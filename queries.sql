@@ -74,3 +74,15 @@ WITH ranked_players AS (
 SELECT *
 FROM ranked_players
 WHERE rank_in_team = 1 and goals >= 5;
+
+-- Total de buts par équipe, uniquement celles qui dépassent 20 buts ( CTE + SUM + GROUP BY)
+WITh total_goals AS (
+    SELECT
+    team_id,
+    SUM(goals) AS ttx_goals
+    FROM players
+    GROUP BY team_id
+)
+SELECT * 
+FROM total_goals
+WHERE ttx_goals > 20;
