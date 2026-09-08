@@ -76,7 +76,7 @@ FROM ranked_players
 WHERE rank_in_team = 1 and goals >= 5;
 
 -- Total de buts par équipe, uniquement celles qui dépassent 20 buts ( CTE + SUM + GROUP BY)
-WITh total_goals AS (
+WITH total_goals AS (
     SELECT
     team_id,
     SUM(goals) AS ttx_goals
@@ -86,3 +86,17 @@ WITh total_goals AS (
 SELECT * 
 FROM total_goals
 WHERE ttx_goals > 20;
+
+-- Vue : meilleur buteur par équipe ( CTE + RANK, réutilisable sans réecrire la requête)
+CREATE VIEW top_scorer AS
+WITH best_player AS (
+    SELECT name, team_id, goals,
+    RANK() OVER (PARTITION BY team_id ORDER BY goals DESC ) AS player_rank
+    FROM players
+)
+SELECT goals,
+teams.name AS equipe,
+best_player.name AS joueur
+FROM best_player
+JOIN teams ON best_player.team_id = teams.id
+WHERE player_rank = 1;
