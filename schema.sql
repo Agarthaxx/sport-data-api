@@ -16,3 +16,13 @@ INSERT INTO teams (name, city, founded_year, budget_millions, league) VALUES
 ('Monaco',    'Monaco',    1924, 220.00, 'Ligue 1'),
 ('Lille',     'Lille',     1944, 120.30, 'Ligue 2'),
 ('Lens',      'Lens',      1906,  95.00, 'Ligue 2');
+
+-- schema.sql — Semaine 2 : table players (FK vers teams, RESTRICT par défaut)
+CREATE TABLE players (
+    id       INT AUTO_INCREMENT PRIMARY KEY,
+    name     VARCHAR(100),
+    position VARCHAR(100),
+    goals    INT,
+    team_id  INT,
+    FOREIGN KEY (team_id) REFERENCES teams(id)
+);
