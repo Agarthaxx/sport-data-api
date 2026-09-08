@@ -26,3 +26,16 @@ CREATE TABLE players (
     team_id  INT,
     FOREIGN KEY (team_id) REFERENCES teams(id)
 );
+
+-- Semaine 2 : données de test players
+INSERT INTO players (name, position, goals, team_id) VALUES
+('Dembélé', 'Attaquant', 12, 1),
+('Hakimi', 'Défenseur', 5, 1),
+('Vitinha', 'Milieu', 5, 1),
+('Rongier', 'Milieu', 2, 2),
+('Aubameyang', 'Attaquant', 15, 2),
+('Lacazette', 'Attaquant', 11, 3),
+('Ben Yedder', 'Attaquant', 18, 4),
+('David', 'Attaquant', 14, 5),
+('Mbappé', 'Attaquant', 7, 1),
+('Naeves', 'Defenseur', 3, 1);
