@@ -61,3 +61,53 @@ WHERE t.budget_millions > (
     SELECT AVG(budget_millions)
     FROM teams
 );
+
+-- Meilleur buteur de chaque équipe, avec au moins 5 buts (CTE + fonction fenêtre RANK)
+WITH ranked_players AS (
+    SELECT
+    name,
+    goals,
+    team_id,
+    RANK() OVER (PARTITION BY team_id ORDER BY goals DESC) AS rank_in_team
+    FROM players
+)
+SELECT *
+FROM ranked_players
+WHERE rank_in_team = 1 and goals >= 5;
+
+-- Total de buts par équipe, uniquement celles qui dépassent 20 buts ( CTE + SUM + GROUP BY)
+WITH total_goals AS (
+    SELECT
+    team_id,
+    SUM(goals) AS ttx_goals
+    FROM players
+    GROUP BY team_id
+)
+SELECT * 
+FROM total_goals
+WHERE ttx_goals > 20;
+
+-- Vue : meilleur buteur par équipe ( CTE + RANK, réutilisable sans réecrire la requête)
+CREATE VIEW top_scorer AS
+WITH best_player AS (
+    SELECT name, team_id, goals,
+    RANK() OVER (PARTITION BY team_id ORDER BY goals DESC ) AS player_rank
+    FROM players
+)
+SELECT goals,
+teams.name AS equipe,
+best_player.name AS joueur
+FROM best_player
+JOIN teams ON best_player.team_id = teams.id
+WHERE player_rank = 1;
+
+-- Semaine 3 : top_scorer par équipe via sous-requête corrélée
+-- ( équivalent de la vue top_scorer, mais sans window function :
+-- un joueur est gardé si son nombre de buts égale le max de son équipe )
+SELECT p.name, p.goals, p.team_id
+FROM players p
+WHERE p.goals = (
+    SELECT MAX(p2.goals)
+    FROM players p2
+    WHERE p2.team_id = p.team_id
+);
