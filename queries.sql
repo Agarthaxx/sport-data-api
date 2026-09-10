@@ -100,3 +100,14 @@ best_player.name AS joueur
 FROM best_player
 JOIN teams ON best_player.team_id = teams.id
 WHERE player_rank = 1;
+
+-- Semaine 3 : top_scorer par équipe via sous-requête corrélée
+-- ( équivalent de la vue top_scorer, mais sans window function :
+-- un joueur est gardé si son nombre de buts égale le max de son équipe )
+SELECT p.name, p.goals, p.team_id
+FROM players p
+WHERE p.goals = (
+    SELECT MAX(p2.goals)
+    FROM players p2
+    WHERE p2.team_id = p.team_id
+);

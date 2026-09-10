@@ -34,8 +34,8 @@
 - [x] Fonctions fenêtre : RANK(), DENSE_RANK(), ROW_NUMBER() + PARTITION BY
 - [x] CTEs (WITH ... AS)
 - [x] Pourquoi on ne peut pas filtrer un alias de fonction fenêtre dans WHERE/HAVING (ordre d'exécution)
-- [ ] Vues & vues matérialisées
-- [ ] EXPLAIN ANALYZE (intro)
+- [x] Vues & vues matérialisées
+- [x] EXPLAIN ANALYZE (intro)
 
 **Acquis :**
 - RANK() vs DENSE_RANK() : RANK() saute les valeurs après un ex-aequo, DENSE_RANK() non
@@ -45,3 +45,10 @@
 - Piège de nommage : ne jamais nommer une CTE comme une table existante (ambiguïté)
 - Exercice : top buteur par équipe avec seuil minimum (CTE + RANK + filtre combiné)
 - Exercice CTE + SUM() + GROUP BY : total de buts par équipe, filtré avec WHERE (pas HAVING) car ttx_goals est déjà une colonne figée une fois sortie de la CTE
+- Vue team_top_scorer créée (CTE + RANK() OVER PARTITION BY team_id ORDER BY goals DESC) — vue = définition permanente, pas éphémère, nécessite un DROP VIEW explicite pour disparaître
+- MySQL n'a pas de vues matérialisées natives (contrairement à PostgreSQL) — simulées via des patterns ETL, approfondi en Semaine 5
+- EXPLAIN ANALYZE : exécute réellement la requête (contrairement à EXPLAIN seul) et retourne temps réel + lignes réelles par étape, à lire de l'intérieur vers l'extérieur de l'arbre
+- Le signal de perf qui compte : type d'accès (Table scan vs Index lookup) × loops — jamais loops seul. Table scan + loops=1 = ok si petite table ; Index lookup + loops élevé = ok (accès direct) ; Table scan + loops élevé = potentiellement catastrophique
+- Comparaison chiffrée sur team_top_scorer (10 lignes, 6 équipes) : window function (~0.15ms, un seul passage trié par partition) plus rapide qu'une sous-requête corrélée équivalente (~0.28ms, un MAX() réexécuté par loops=N, une fois par ligne externe)
+- SHOW WARNINGS n'affiche que le dernier statement exécuté — à lancer juste après la requête concernée, sans commande entre les deux
+- Note MySQL 1276 ("field resolved in SELECT #1") sur une sous-requête corrélée = comportement normal et attendu, pas une erreur
