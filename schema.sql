@@ -17,14 +17,14 @@ INSERT INTO teams (name, city, founded_year, budget_millions, league) VALUES
 ('Lille',     'Lille',     1944, 120.30, 'Ligue 2'),
 ('Lens',      'Lens',      1906,  95.00, 'Ligue 2');
 
--- schema.sql — Semaine 2 : table players (FK vers teams, RESTRICT par défaut)
+-- schema.sql — Semaine 2 : table players (FK vers teams, ON DELETE RESTRICT explicite)
 CREATE TABLE players (
     id       INT AUTO_INCREMENT PRIMARY KEY,
     name     VARCHAR(100),
     position VARCHAR(100),
     goals    INT,
     team_id  INT,
-    FOREIGN KEY (team_id) REFERENCES teams(id)
+    FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE RESTRICT
 );
 
 -- Semaine 2 : données de test players
