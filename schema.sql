@@ -23,7 +23,7 @@ CREATE TABLE players (
     name     VARCHAR(100),
     position VARCHAR(100),
     goals    INT,
-    team_id  INT,
+    team_id  INT NOT NULL,
     FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE RESTRICT
 );
 
