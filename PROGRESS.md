@@ -52,3 +52,18 @@
 - Comparaison chiffrée sur team_top_scorer (10 lignes, 6 équipes) : window function (~0.15ms, un seul passage trié par partition) plus rapide qu'une sous-requête corrélée équivalente (~0.28ms, un MAX() réexécuté par loops=N, une fois par ligne externe)
 - SHOW WARNINGS n'affiche que le dernier statement exécuté — à lancer juste après la requête concernée, sans commande entre les deux
 - Note MySQL 1276 ("field resolved in SELECT #1") sur une sous-requête corrélée = comportement normal et attendu, pas une erreur
+
+### Week 4 — Index & perf (en cours)
+
+- [x] Contrainte NOT NULL sur team_id, position, name (players)
+- [x] BTREE : structure, O(log n) vs O(n), traversée par élimination de branches
+- [x] Index composite (team_id, position) : leftmost prefix rule, ordre par cardinalité
+- [x] CHECK constraint sur players.position (chk_position) — valeurs : Attaquant, Défenseur, Milieu, Gardien
+- [ ] Slow query log
+
+**Acquis :**
+- Index composite idx_team_id_position (team_id, position) : ordre validé par cardinalité (team_id=5 > position=3) — colonne la plus sélective en premier réduit le plus vite les lignes candidates
+- Leftmost prefix rule : un index (a,b) sert les requêtes sur a seul ou (a,b), jamais b seul
+- Cardinality sur Seq_in_index=2 = nb de combinaisons distinctes de la clé complète, pas une addition des cardinalités individuelles
+- ENUM vs CHECK : ENUM stocke un entier en interne (perf tri/comparaison meilleure), CHECK reste en VARCHAR (SQL standard, plus évolutif — ajouter une valeur ne touche pas le type de colonne). Choix : CHECK, car le dataset reste petit — le gain perf d'ENUM ne serait pas mesurable ici (éviter l'optimisation prématurée)
+- CREATE INDEX est sûr niveau intégrité (pas de rejet de données) mais coûteux en temps/verrouillage sur une grosse table — pertinent pour Semaine 5-6

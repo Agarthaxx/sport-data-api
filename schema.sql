@@ -24,6 +24,7 @@ CREATE TABLE players (
     position VARCHAR(100) NOT NULL,
     goals    INT,
     team_id  INT NOT NULL,
+    CONSTRAINT chk_position CHECK ( position IN ( "Attaquant", "Défenseur", "Milieu", "Gardien" )),
     FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE RESTRICT
 );
 
@@ -38,4 +39,4 @@ INSERT INTO players (name, position, goals, team_id) VALUES
 ('Ben Yedder', 'Attaquant', 18, 4),
 ('David', 'Attaquant', 14, 5),
 ('Mbappé', 'Attaquant', 7, 1),
-('Naeves', 'Defenseur', 3, 1);
+('Naeves', 'Défenseur', 3, 1);
