@@ -20,7 +20,7 @@ INSERT INTO teams (name, city, founded_year, budget_millions, league) VALUES
 -- schema.sql — Semaine 2 : table players (FK vers teams, ON DELETE RESTRICT explicite)
 CREATE TABLE players (
     id       INT AUTO_INCREMENT PRIMARY KEY,
-    name     VARCHAR(100),
+    name     VARCHAR(100) NOT NULL,
     position VARCHAR(100) NOT NULL,
     goals    INT,
     team_id  INT NOT NULL,
