@@ -20,10 +20,11 @@ INSERT INTO teams (name, city, founded_year, budget_millions, league) VALUES
 -- schema.sql — Semaine 2 : table players (FK vers teams, ON DELETE RESTRICT explicite)
 CREATE TABLE players (
     id       INT AUTO_INCREMENT PRIMARY KEY,
-    name     VARCHAR(100),
-    position VARCHAR(100),
+    name     VARCHAR(100) NOT NULL,
+    position VARCHAR(100) NOT NULL,
     goals    INT,
-    team_id  INT,
+    team_id  INT NOT NULL,
+    CONSTRAINT chk_position CHECK ( position IN ( "Attaquant", "Défenseur", "Milieu", "Gardien" )),
     FOREIGN KEY (team_id) REFERENCES teams(id) ON DELETE RESTRICT
 );
 
@@ -38,4 +39,7 @@ INSERT INTO players (name, position, goals, team_id) VALUES
 ('Ben Yedder', 'Attaquant', 18, 4),
 ('David', 'Attaquant', 14, 5),
 ('Mbappé', 'Attaquant', 7, 1),
-('Naeves', 'Defenseur', 3, 1);
+('Naeves', 'Défenseur', 3, 1);
+
+-- Semaine 4 : Création d'un INDEX sur la table players 
+CREATE INDEX idx_team_id_position ON players (team_id, position);
