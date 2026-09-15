@@ -59,7 +59,7 @@
 - [x] BTREE : structure, O(log n) vs O(n), traversée par élimination de branches
 - [x] Index composite (team_id, position) : leftmost prefix rule, ordre par cardinalité
 - [x] CHECK constraint sur players.position (chk_position) — valeurs : Attaquant, Défenseur, Milieu, Gardien
-- [ ] Slow query log
+- [x] Slow query log
 
 **Acquis :**
 - Index composite idx_team_id_position (team_id, position) : ordre validé par cardinalité (team_id=5 > position=3) — colonne la plus sélective en premier réduit le plus vite les lignes candidates
@@ -67,3 +67,7 @@
 - Cardinality sur Seq_in_index=2 = nb de combinaisons distinctes de la clé complète, pas une addition des cardinalités individuelles
 - ENUM vs CHECK : ENUM stocke un entier en interne (perf tri/comparaison meilleure), CHECK reste en VARCHAR (SQL standard, plus évolutif — ajouter une valeur ne touche pas le type de colonne). Choix : CHECK, car le dataset reste petit — le gain perf d'ENUM ne serait pas mesurable ici (éviter l'optimisation prématurée)
 - CREATE INDEX est sûr niveau intégrité (pas de rejet de données) mais coûteux en temps/verrouillage sur une grosse table — pertinent pour Semaine 5-6
+- Slow query log activé (slow_query_log + long_query_time) : distinction variable GLOBAL (référence serveur) vs SESSION (copie locale à la connexion) vs persistance disque (SET GLOBAL ne survit pas à un restart sans SET PERSIST ou my.cnf) — trois niveaux de portée à ne pas confondre
+- long_query_time = 0 utile uniquement en debug ponctuel (capture tout, y compris le bruit des commandes de diagnostic) — jamais en prod, où le seuil se calibre sur la baseline réelle
+- Rows_examined >> Rows_sent dans une entrée du log = signal de full scan déguisé, à corréler avec type: ALL vu dans EXPLAIN ANALYZE
+- Quand ne pas indexer : arbitrage lecture/écriture — un index accélère les SELECT mais ralentit chaque INSERT/UPDATE/DELETE (traversée + split de page BTREE) ; sur une table à forte volumétrie d'écriture et peu lue, rester minimaliste sur les index
