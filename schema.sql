@@ -40,3 +40,6 @@ INSERT INTO players (name, position, goals, team_id) VALUES
 ('David', 'Attaquant', 14, 5),
 ('Mbappé', 'Attaquant', 7, 1),
 ('Naeves', 'Défenseur', 3, 1);
+
+-- Semaine 4 : Création d'un INDEX sur la table players 
+CREATE INDEX idx_team_id_position ON players (team_id, position);

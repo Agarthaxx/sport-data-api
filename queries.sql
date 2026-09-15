@@ -111,3 +111,7 @@ WHERE p.goals = (
     FROM players p2
     WHERE p2.team_id = p.team_id
 );
+
+-- Semaine 4 : Ajout d'un INDEX sur la table players pour les team_id & position 
+-- cardinalité team_id = 5 et position = 3/4 
+CREATE INDEX idx_team_id_position ON players ( team_id, position);
